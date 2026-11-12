@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Biblioteca</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+<nav class="sidebar">
+    <div class="logo">📚 Biblioteca</div>
+
+    <a th:href="@{/}" class="active">🏠 Inicio</a>
+    <a th:href="@{/libros}">📖 Libros</a>
+    <a th:href="@{/estudiantes}">👥 Estudiantes</a>
+    <a th:href="@{/prestamos}">🔄 Préstamos</a>
+</nav>
+
+<main class="main">
+
+    <header class="topbar">
+        <h2>Sistema de Gestión de Biblioteca</h2>
+    </header>
+
+    <section class="banner">
+        <h1>Bienvenido al Sistema de Biblioteca</h1>
+        <p>Administra libros, estudiantes y préstamos desde un solo lugar.</p>
+    </section>
+
+    <section class="cards">
+        <div class="card">
+            <h3>Libros registrados</h3>
+            <p th:text="${totalLibros}">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Estudiantes registrados</h3>
+            <p th:text="${totalEstudiantes}">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Préstamos registrados</h3>
+            <p th:text="${totalPrestamos}">0</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Últimos préstamos</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Libro</th>
+                    <th>Fecha de préstamo</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="prestamo : ${ultimosPrestamos}">
+                    <td th:text="${prestamo.estudiante.nombres}">Estudiante</td>
+                    <td th:text="${prestamo.libro.titulo}">Libro</td>
+                    <td th:text="${prestamo.fechaPrestamo}">Fecha</td>
+                    <td th:text="${prestamo.estado}">Estado</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+</body>
+</html>

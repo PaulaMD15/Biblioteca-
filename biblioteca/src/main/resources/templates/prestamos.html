@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Préstamos</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body>
+
+<nav class="sidebar">
+    <div class="logo">📚 Biblioteca</div>
+    <a th:href="@{/}">🏠 Inicio</a>
+    <a th:href="@{/libros}">📖 Libros</a>
+    <a th:href="@{/estudiantes}">👥 Estudiantes</a>
+    <a th:href="@{/prestamos}" class="active">🔄 Préstamos</a>
+</nav>
+
+<main class="main">
+    <header class="topbar">
+        <h2>Gestión de préstamos</h2>
+    </header>
+
+    <section class="panel">
+        <h2>Registrar préstamo</h2>
+
+        <form th:action="@{/prestamos/guardar}" method="post">
+
+            <div class="form-group">
+                <label>Estudiante</label>
+                <select name="idEstudiante" required>
+                    <option value="">Seleccione un estudiante</option>
+                    <option th:each="estudiante : ${estudiantes}"
+                            th:value="${estudiante.idEstudiante}"
+                            th:text="${estudiante.nombres + ' ' + estudiante.apellidos}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Libro</label>
+                <select name="idLibro" required>
+                    <option value="">Seleccione un libro</option>
+                    <option th:each="libro : ${libros}"
+                            th:value="${libro.idLibro}"
+                            th:text="${libro.titulo}"
+                            th:disabled="${libro.disponibles <= 0}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Fecha del préstamo</label>
+                <input type="date" name="fechaPrestamo" required>
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de devolución</label>
+                <input type="date" name="fechaDevolucion" required>
+            </div>
+
+            <button class="btn" type="submit">Registrar préstamo</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Préstamos registrados</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Libro</th>
+                    <th>Fecha préstamo</th>
+                    <th>Fecha devolución</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="prestamo : ${prestamos}">
+                    <td th:text="${prestamo.estudiante.nombres}"></td>
+                    <td th:text="${prestamo.libro.titulo}"></td>
+                    <td th:text="${prestamo.fechaPrestamo}"></td>
+                    <td th:text="${prestamo.fechaDevolucion}"></td>
+                    <td>
+                        <span class="estado" th:text="${prestamo.estado}"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>
+
